@@ -17,53 +17,46 @@ To use the Data Encryption Standard (DES) algorithm for a practical application,
 #include <stdio.h>
 #include <string.h>
 
-void encrypt(char message[], char key[], char encryptedMessage[], int messageLength) {
-    int keyLength = strlen(key);
-    int i;
-    for (i = 0; i < messageLength; i++) {
-        encryptedMessage[i] = message[i] ^ key[i % keyLength];
-    }
-    encryptedMessage[messageLength] = '\0';
-}
-
-void decrypt(char encryptedMessage[], char key[], char decryptedMessage[], int messageLength) {
-    int keyLength = strlen(key);
-    int i;
-    for (i = 0; i < messageLength; i++) {
-        decryptedMessage[i] = encryptedMessage[i] ^ key[i % keyLength];
-    }
-    decryptedMessage[messageLength] = '\0';
-}
-
 int main() {
     char message[100];
     char key[100];
     char encryptedMessage[100];
     char decryptedMessage[100];
-    int i, messageLength;
 
-    printf("\n***** XOR Encryption and Decryption *****\n\n");
+    printf("\n**Simulation of DES encryption and decryption\n\n");
 
+    // Get user input for the message
     printf("Enter the message to encrypt: ");
     fgets(message, sizeof(message), stdin);
-    message[strcspn(message, "\n")] = '\0';  // remove newline
+    message[strcspn(message, "\n")] = '\0'; // Remove newline character
 
+    // Get user input for the key
     printf("Enter the encryption key: ");
     fgets(key, sizeof(key), stdin);
-    key[strcspn(key, "\n")] = '\0';  // remove newline
+    key[strcspn(key, "\n")] = '\0'; // Remove newline character
 
-    messageLength = strlen(message);
+    int messageLength = strlen(message);
+    int keyLength = strlen(key);
 
-    encrypt(message, key, encryptedMessage, messageLength);
+    // Encrypt the message using XOR
+    for (int i = 0; i < messageLength; i++) {
+        encryptedMessage[i] = message[i] ^ key[i % keyLength];
+    }
+    encryptedMessage[messageLength] = '\0';
 
-    printf("\nOriginal Message: %s\n", message);
-    printf("Encrypted Message (hex): ");
-    for (i = 0; i < messageLength; i++) {
+    printf("Original Message: %s\n", message);
+    printf("Encrypted Message: ");
+    for (int i = 0; i < messageLength; i++) {
         printf("%02X ", (unsigned char)encryptedMessage[i]);
     }
     printf("\n");
 
-    decrypt(encryptedMessage, key, decryptedMessage, messageLength);
+    // Decrypt the message using XOR again
+    for (int i = 0; i < messageLength; i++) {
+        decryptedMessage[i] = encryptedMessage[i] ^ key[i % keyLength];
+    }
+    decryptedMessage[messageLength] = '\0';
+
     printf("Decrypted Message: %s\n", decryptedMessage);
 
     return 0;
@@ -74,7 +67,8 @@ int main() {
 
 
 ## Output:
-![image](https://github.com/user-attachments/assets/2e68bd13-353d-4d90-83be-8b89400b09ce)
+![image](https://github.com/user-attachments/assets/6ec2b01d-5ddb-4226-897f-b29bf7c3e92c)
+
 
 
 ## Result:
